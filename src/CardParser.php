@@ -8,7 +8,7 @@ class CardParser
 {
     public $file;
 
-    public static function parseCardsFromFile(string $file): string|array
+    public static function parseCardsFromFile(string $file, string $outputPath = 'files/output/output.json'): string|array
     {
         $content = FileHelper::getFileContent($file);
         $lines = explode(PHP_EOL, trim($content));
@@ -47,9 +47,9 @@ class CardParser
             ]);
         }
 
-        file_put_contents('files/output/output.json', json_encode($result, JSON_PRETTY_PRINT));
+        file_put_contents($outputPath, json_encode($result, JSON_PRETTY_PRINT));
 
-        return 'SUCCESS: Data successfully outputted to files/output/output.json';
+        return 'SUCCESS: Data successfully outputted to ' . $outputPath;
 
     }
 }
