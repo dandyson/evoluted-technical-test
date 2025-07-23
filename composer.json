@@ -15,5 +15,7 @@
             "email": "31185372+dandyson@users.noreply.github.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": "^8.4"
+    }
 }
