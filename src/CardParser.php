@@ -43,9 +43,9 @@ class CardParser
                 $yours =  array_map('intval', preg_split('/\s+/', trim($yours)));
                 
                 array_push($result, [
-                    'Card' => $card,
-                    'Winning' => $winning,
-                    'Yours' => $yours
+                    'card' => $card,
+                    'winning' => $winning,
+                    'yours' => $yours
                 ]);
             }
 
