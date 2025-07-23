@@ -3,6 +3,6 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use App\CardParser;
 
-var_dump(CardParser::parseCardsFromFile('files/input.txt'));
+echo CardParser::parseCardsFromFile('files/input.txt');
 
 ?>
