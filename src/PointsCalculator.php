@@ -1,53 +1,42 @@
 <?php
+
 namespace App;
 
-use Error;
+use App\Utilities\FileHelper;
+use RuntimeException;
 
 class PointsCalculator
 {
     public $file;
 
-    public static function getFileContent(string $file): string|Error
+    public static function calculate(string $file): int|array
     {
-        $content = file_get_contents($file);
-
-        if ($content === false) {
-            throw new \RuntimeException("Cannot read file: $file");
+        $content = FileHelper::getFileContent($file);
+        
+        // First, check if valid JSON
+        if (!json_validate($content)) {
+            throw new RuntimeException("Invalid JSON Format");
         }
 
-        if (trim($content) === '') {
-            throw new \RuntimeException("File is empty: $file");
-        }
+        $jsonContent = json_decode($content);
+        $totalPoints = 0;
 
-        return $content;
-    }
+        foreach ($jsonContent as $value) {
 
-    public static function calculate(string $file): int|Error
-    {
-        try {
-            $jsonContent = json_decode(PointsCalculator::getFileContent($file));
+            $cardPoints = 0;
 
-            $totalPoints = 0;
-
-            foreach ($jsonContent as $value) {
-
-                $cardPoints = 0;
-                foreach ($value->yours as $yourNumber) {
-                    if (in_array($yourNumber, $value->winning)) {
-                        $cardPoints == 0 ? $cardPoints += 1 : $cardPoints *= 2;
-                    }
+            foreach ($value->yours as $yourNumber) {
+                if (in_array($yourNumber, $value->winning)) {
+                    $cardPoints == 0 ? $cardPoints += 1 : $cardPoints *= 2;
                 }
-
-                $totalPoints += $cardPoints;
             }
 
-            return $totalPoints;
-            
-        } catch (Error $error) {
-            return $error;
+            $totalPoints += $cardPoints;
         }
 
+        return $totalPoints;
+            
+        }
     }
-}
 
 ?>
